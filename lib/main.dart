@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     _loadSavedAnnotations();
     super.initState();
   }
+
   Future<void> _loadSavedAnnotations() async {
     final annotations = await _loadAnnotations();
     print('Loaded ${annotations.length} saved annotations.');
@@ -40,11 +41,12 @@ class _HomePageState extends State<HomePage> {
       print('Applying annotation: ${annotation.annotationType}');
       final annotationJson = annotation.toJson();
       print('Annotation JSON: $annotationJson');
-
       // Apply the annotation
       addAnnotation(annotation);
+     // _drawAnnotation(annotation.annotationType, annotation.selectedText);
     });
   }
+
 
   void addAnnotation(AnnotationData annotation) {
 
@@ -113,6 +115,8 @@ class _HomePageState extends State<HomePage> {
       final double _kContextMenuHeight = 90;
       final double _kContextMenuWidth = 100;
       final double _kHeight = 18;
+
+      //find constraints X AND Y
       final Offset containerOffset =
       renderBoxContainer.localToGlobal(renderBoxContainer.paintBounds.topLeft);
       if (details != null &&
@@ -144,6 +148,7 @@ class _HomePageState extends State<HomePage> {
         final Offset textStartOffset = details.globalSelectedRegion!.topLeft;
         final Offset textEndOffset = details.globalSelectedRegion!.bottomRight;
 
+        //print X AND Y Coordinates
         print('Selected Text Coordinates:');
         print('Start X: ${textStartOffset.dx}, Y: ${textStartOffset.dy}');
         print('End X: ${textEndOffset.dx}, Y: ${textEndOffset.dy}');
@@ -336,6 +341,7 @@ class _HomePageState extends State<HomePage> {
     final List<int> bytes = await document.save();
     setState(() {
       _documentBytes = Uint8List.fromList(bytes);
+      _pdfViewerController = PdfViewerController();
     });
   }
 
